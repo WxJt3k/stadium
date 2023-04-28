@@ -1,1 +1,2 @@
 # stadium
+Parcial distribuida
