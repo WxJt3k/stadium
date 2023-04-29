@@ -1,1 +1,24 @@
-﻿
+﻿@page "/tickets"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<div class="container">
+    <h1 class="text-success">Listado de tickets</h1>
+    <form method="get" action="/tickets/edit">
+        <div class="form-group">
+            <label for="id">Ingresa el ID del ticket:</label>
+            <InputNumber class="form-control" id="id" name="Ticket" @bind-Value="@ticketId" required/>
+        </div>
+        <a class="btn btn-success" href="/tickets/edit/@ticketId"><i class="oi oi-pencil" />Editar</a>
+    </form>
+</div>
+
+@code {
+    private int? ticketId;
+
+    private void OnEditTicket(int ticketId)
+    {
+        navigationManager.NavigateTo($"/tickets/edit/{ticketId}");
+    }
+}

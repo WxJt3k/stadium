@@ -27,7 +27,7 @@ namespace Stadium.WEB.Repositories
                 var codigoEstatus = HttpResponseMessage.StatusCode;
                 if (codigoEstatus == HttpStatusCode.NotFound)
                 {
-                    return "Recurso no encontrado";
+                    return "Boleta no válida";
                 }
                 else if (codigoEstatus == HttpStatusCode.BadRequest)
                 {

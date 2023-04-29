@@ -1,4 +1,4 @@
-﻿@page "/tickets/edit/{Ticket:int}"
+﻿@page "/tickets/edit/{TicketId:int}"
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
@@ -28,6 +28,8 @@ else
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                var msgNotFound = await responseHttp.GetErrorMessage();
+                await sweetAlertService.FireAsync("Error", msgNotFound, SweetAlertIcon.Error);
                 navigationManager.NavigateTo("/tickets");
                 return;
             }
@@ -38,6 +40,14 @@ else
         }
 
         ticket = responseHttp.Response;
+
+        if (ticket.FueUsada)
+        {
+            var msgFound = "La boleta ingreso por la portería: " + ticket.Porteria + " en la fecha: " + ticket.UseDate.ToString();
+            await sweetAlertService.FireAsync("Boleta usada", msgFound, SweetAlertIcon.Warning);
+            navigationManager.NavigateTo("/tickets");
+            return;
+        }
     }
 
     private async Task EditAsync()
@@ -49,13 +59,14 @@ else
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-
+        var msgFound = "La boleta se registró con éxito en la portería: " + ticket.Porteria + " con la fecha: " + ticket.UseDate.ToString();
+        await sweetAlertService.FireAsync("Boleta usada", msgFound, SweetAlertIcon.Warning);
         Return();
     }
 
     private void Return()
     {
         ticketForm!.FormPostedSuccessfully = true;
-        navigationManager.NavigateTo($"/ticket");
+        navigationManager.NavigateTo($"/tickets");
     }
 }

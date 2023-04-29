@@ -7,21 +7,24 @@
     <div class="mb-3">
         <label>Fecha Uso:</label>
         <div>
-            <InputDate class="form-control" @bind-Value="@Ticket.UseDate" />
+            <InputDate class="form-control" @bind-Value="@Ticket.UseDate" disabled/>
             <ValidationMessage For="@(() => Ticket.UseDate)" />
         </div>
     </div>
-    <div class="mb-3">
+    <div class="mb-3" style="display:none">
         <label>Fue Usada:</label>
         <div>
-            <InputCheckbox class="form-control" @bind-Value="@Ticket.FueUsada" />
+            <select class="form-select" @bind="@Ticket.FueUsada">
+                <option value="1">Sí</option>
+            </select>
             <ValidationMessage For="@(() => Ticket.FueUsada)" />
         </div>
     </div>
     <div class="mb-3">
-        <label>Portería por la que entró la persona:</label>
+        <label>Portería por la que entrará la persona:</label>
         <div>
             <InputSelect class="form-control" @bind-Value="@Ticket.Porteria">
+                <option value="0">-- Seleccione un tipo --</option>
                 @foreach (var option in new[] { "Norte", "Sur", "Oriental", "Occidental" })
                 {
                     <option value="@option">@option</option>
@@ -56,6 +59,7 @@
     protected override void OnInitialized()
     {
         editContext = new(Ticket);
+        Ticket.UseDate = DateTime.Now.Date;
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
