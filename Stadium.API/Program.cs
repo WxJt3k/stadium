@@ -1,4 +1,4 @@
-using BarkeysPlace.API.Data;
+using Stadium.API.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

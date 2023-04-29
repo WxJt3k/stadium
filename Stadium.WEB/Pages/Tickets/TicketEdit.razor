@@ -1,0 +1,61 @@
+﻿@page "/tickets/edit/{Ticket:int}"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Editar Tipo</h3>
+
+@if (ticket is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <TicketForm @ref="ticketForm" Ticket="ticket" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}
+
+@code {
+    private Ticket? ticket = new();
+    private TicketForm? ticketForm;
+
+    [Parameter]
+    public int TicketId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Ticket>($"/api/tickets/{TicketId}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/tickets");
+                return;
+            }
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        ticket = responseHttp.Response;
+    }
+
+    private async Task EditAsync()
+    {
+        var responseHttp = await repository.Put("/api/tickets", ticket);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        ticketForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo($"/ticket");
+    }
+}

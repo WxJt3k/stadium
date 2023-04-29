@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BarkeysPlace.Shared.Entities;
+using Stadium.Shared.Entities;
 
-namespace BarkeysPlace.API.Data
+namespace Stadium.API.Data
 {
     public class DataContext : DbContext
 

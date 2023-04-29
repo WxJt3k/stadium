@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BarkeysPlace.Shared.Entities
+namespace Stadium.Shared.Entities
 {
     public class Ticket
     {
