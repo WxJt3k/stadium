@@ -3,7 +3,7 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 
-<h3>Editar Tipo</h3>
+<h3>Formulario para registro de uso de boletas</h3>
 
 @if (ticket is null)
 {
@@ -43,8 +43,8 @@ else
 
         if (ticket.FueUsada)
         {
-            var msgFound = "La boleta ingreso por la portería: " + ticket.Porteria + " en la fecha: " + ticket.UseDate.ToString();
-            await sweetAlertService.FireAsync("Boleta usada", msgFound, SweetAlertIcon.Warning);
+            var msgFound = "LA BOLETA INGRESÓ POR LA PORTERÍA: " + ticket.Porteria + " EN LA FECHA: " + ticket.UseDate.ToString();
+            await sweetAlertService.FireAsync("BOLETA USADA", msgFound, SweetAlertIcon.Warning);
             navigationManager.NavigateTo("/tickets");
             return;
         }
@@ -52,6 +52,8 @@ else
 
     private async Task EditAsync()
     {
+        ticket.FueUsada = true;
+        ticket.UseDate = DateTime.Now;
         var responseHttp = await repository.Put("/api/tickets", ticket);
         if (responseHttp.Error)
         {
@@ -59,8 +61,8 @@ else
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        var msgFound = "La boleta se registró con éxito en la portería: " + ticket.Porteria + " con la fecha: " + ticket.UseDate.ToString();
-        await sweetAlertService.FireAsync("Boleta usada", msgFound, SweetAlertIcon.Warning);
+        var msgFound = "LA BOLETA FUE USADA CON ÉXITO EN LA PORTERÍA: " + ticket.Porteria + " CON LA FECHA: " + ticket.UseDate.ToString();
+        await sweetAlertService.FireAsync("BOLETA USADA", msgFound, SweetAlertIcon.Warning);
         Return();
     }
 
