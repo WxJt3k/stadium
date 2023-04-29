@@ -8,9 +8,10 @@
     <form method="get" action="/tickets/edit">
         <div class="form-group">
             <label for="id">Ingresa el ID del ticket:</label>
-            <InputNumber class="form-control" id="id" name="Ticket" @bind-Value="@ticketId" required/>
+            <InputNumber style="background-color: #FFF; border-color: #28A745; color:#28A745;height: 50px;" class="form-control" id="id" name="Ticket" @bind-Value="@ticketId" required />
         </div>
-        <a class="btn btn-success" href="/tickets/edit/@ticketId"><i class="oi oi-pencil" />Editar</a>
+        <br/>
+        <a class="btn" style="background-color: #FFF; border-color: #28A745; color:#28A745; width: 100%; height: 50px; font-size: 25px; " href="/tickets/edit/@ticketId"><i class="oi oi-pencil" />Editar</a>
     </form>
 </div>
 
